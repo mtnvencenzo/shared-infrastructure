@@ -1,0 +1,88 @@
+variables:
+  serviceConnectionName: 'sc-vec-eus-terraform-global-001'
+  terraformStateResourceGroup: 'rg-vec-eus-administration-001'
+  terraformStateStorageAccount: 'stveceusterraformstat001'
+  ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
+    branchType: main
+  ${{ if ne(variables['Build.SourceBranchName'], 'main') }}: 
+    branchType: pull
+
+name: $(Build.DefinitionName)_$(branchType)_$(Date:yyyyMMdd)$(Rev:.r)
+
+
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - terraform/*
+
+stages:
+
+##########################
+### DEPLOY GLOBAL
+##########################
+
+- stage: DeployTerraform
+  displayName: 'Deploy Terraform'
+
+  jobs:
+  - deployment: DeployTerraform
+    displayName: 'Deploy Terraform'
+    environment: global
+    timeoutInMinutes: 360
+
+    pool:
+      vmImage: ubuntu-latest
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+            displayName: 'Checkout repository'
+  
+          - task: TerraformInstaller@1
+            displayName: 'Terraform > Install Latest'
+            inputs:
+              terraformVersion: 'latest'
+
+          - task: TerraformTaskV4@4
+            displayName: 'Terraform > Init'
+            inputs:
+              command: 'init'
+              provider: 'azurerm'
+              ensureBackend: true
+              workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+              backendServiceArm: '$(serviceConnectionName)'
+              backendAzureRmResourceGroupName: '$(terraformStateResourceGroup)'
+              backendAzureRmStorageAccountName: '$(terraformStateStorageAccount)'
+              backendAzureRmContainerName: 'terraform-global'
+              backendAzureRmKey: 'shared/terraform.tfstate'
+
+          - task: TerraformTaskV4@4
+            displayName: 'Terraform > Validate'
+            inputs:
+              command: 'validate'
+              provider: 'azurerm'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+
+          - task: TerraformTaskV4@4
+            displayName: 'Terraform > Plan'
+            inputs:
+              command: 'plan'
+              provider: 'azurerm'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+              environmentServiceNameAzureRM: '$(serviceConnectionName)'
+
+          - task: TerraformTaskV4@4
+            displayName: 'Terraform > Apply'
+            condition: and(not(or(failed(), canceled())), eq(variables['branchType'], 'main'))
+            inputs:
+              command: 'apply'
+              provider: 'azurerm'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+              environmentServiceNameAzureRM: '$(serviceConnectionName)'
+              commandOptions: '-auto-approve'
+
