@@ -1,5 +1,5 @@
 variables:
-  serviceConnectionName: 'sc-vec-eus-terraform-global-001'
+  serviceConnectionName: 'sc-vec-eus-default-svc-principal-001'
   terraformStateResourceGroup: 'rg-vec-eus-administration-001'
   terraformStateStorageAccount: 'stveceusterraformstat001'
   ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
