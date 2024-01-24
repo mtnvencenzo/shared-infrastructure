@@ -58,7 +58,7 @@ stages:
               backendServiceArm: '$(serviceConnectionName)'
               backendAzureRmResourceGroupName: '$(terraformStateResourceGroup)'
               backendAzureRmStorageAccountName: '$(terraformStateStorageAccount)'
-              backendAzureRmContainerName: 'terraform-global'
+              backendAzureRmContainerName: 'terraform-shared'
               backendAzureRmKey: 'shared/terraform.tfstate'
 
           - task: TerraformTaskV4@4
