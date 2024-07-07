@@ -33,3 +33,9 @@ variable "sequence" {
   description = "The sequence number of the resource typically starting with 001"
   default = "001"
 }
+
+variable "data_location" {
+  type    = string
+  description = "The location of the data center"
+  default = "United States"
+}

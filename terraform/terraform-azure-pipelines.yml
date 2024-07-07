@@ -48,6 +48,12 @@ stages:
             inputs:
               terraformVersion: 'latest'
 
+          - script: |
+              git config --global url."https://$SYSTEM_ACCESSTOKEN@dev.azure.com".insteadOf "https://vecchi@dev.azure.com"
+            displayName: 'Set extra header'
+            env:
+              SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+
           - task: TerraformTaskV4@4
             displayName: 'Terraform > Init'
             inputs:
