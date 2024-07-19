@@ -10,7 +10,6 @@ module "shared_servicebus_namespace" {
 
     public_network_access_enabled   = true
     local_auth_enabled              = false
-    prevent_destroy                 = false
 
     providers = {
         azurerm = azurerm
