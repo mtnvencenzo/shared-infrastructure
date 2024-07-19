@@ -14,5 +14,6 @@ module "shared_servicebus_namespace" {
     providers = {
         azurerm = azurerm
     }
+    
 }
 
