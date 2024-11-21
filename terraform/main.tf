@@ -14,6 +14,8 @@ terraform {
 
 provider "azurerm" {
   features {}
+  
+  skip_provider_registration = true
 }
 
 data "azurerm_resource_group" "global_shared_resource_group" {
