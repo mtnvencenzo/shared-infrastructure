@@ -8,6 +8,11 @@ resource "azurerm_api_management" "apim" {
   publisher_email     = "rvecchi@gmail.com"
   sku_name = "Consumption_0"
   tags     = local.tags
+
+  identity {
+      type = "SystemAssigned"
+  }
+  
   lifecycle {
     prevent_destroy = true
   }
