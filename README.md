@@ -65,7 +65,16 @@
                     - `$ProgressPreference = 'SilentlyContinue'; Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile .\AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'; Remove-Item .\AzureCLI.msi`
             - Install Azure Functions Core Tools
                 - `choco install azure-functions-core-tools -y`
+				- After install open Visual Studio and navigate to the Tools > Options > Projects and Solutions > Azure Functions option and click 'Check for updates'
 
+- Git Bash Integration in Visual Studio
+  - Add Git Bash to Visual Studio Terminal
+    - Open the Tools > Options > Environment > Terminal Menu option and add a new terminal pointing to the git sh.exe cli
+      ![./.readme-assets/adding-git-bash-to-visualstudio-terminal.png](Adding)
+    - Then select the View > Terminal menu and pick your new Git Bash terminal.
+      ![./.readme-assets/using-git-bash-in-visualstudio-terminal.png](Adding)
 
-
+  - Add Git Bash to Visual Studio External Tools
+    - Open the Tools > External Tools Menu option and add a new terminal pointing to the git git-bash.exe cli
+      ![./.readme-assets/adding-git-bash-to-visualstudio-external-tools.png](Adding)
 
