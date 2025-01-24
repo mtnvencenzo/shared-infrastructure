@@ -5,7 +5,7 @@ resource "azurerm_container_app_environment" "container_app_environment" {
     internal_load_balancer_enabled              = false
     tags                                        = local.tags
 
-    infrastructure_resource_group_name          = azurerm_virtual_network.global_vnet.resource_group_name
+    infrastructure_resource_group_name          = "rg-cae-${var.sub}-${var.region}-${var.environment}-${var.domain}-${var.sequence}"
     infrastructure_subnet_id                    = azurerm_subnet.container_app_environment_subnet.id
     log_analytics_workspace_id                  = azurerm_log_analytics_workspace.law.id
     dapr_application_insights_connection_string = azurerm_application_insights.appi.connection_string
