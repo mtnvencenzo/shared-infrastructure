@@ -39,3 +39,9 @@ variable "data_location" {
   description = "The location of the data center"
   default = "United States"
 }
+
+variable "containers_subnet_address_prefixes" {
+  type = list(string)
+  description = "The address space for the containers app environment"
+  default = ["10.1.0.0/18"] # Total IPs: 16,384  Range: 10.1.0.0 - 10.1.63.255
+}
