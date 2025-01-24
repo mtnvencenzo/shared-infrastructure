@@ -5,6 +5,7 @@ resource "azurerm_log_analytics_workspace" "law" {
   sku                 = "PerGB2018"
   retention_in_days   = 30
   tags     = local.tags
+  
   lifecycle {
     prevent_destroy = true
   }
@@ -18,9 +19,11 @@ resource "azurerm_application_insights" "appi" {
   workspace_id        = azurerm_log_analytics_workspace.law.id
   application_type    = "web"
   tags     = local.tags
+
   depends_on = [
     azurerm_log_analytics_workspace.law
   ]
+
   lifecycle {
     prevent_destroy = true
   }

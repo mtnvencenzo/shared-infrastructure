@@ -13,11 +13,11 @@ resource "azurerm_container_app_environment" "container_app_environment" {
     workload_profile            {
         name                    = "Consumption"
         workload_profile_type   = "Consumption"
-        maximum_count           = 3
-        minimum_count           = 1 
+        maximum_count           = 0
+        minimum_count           = 0 
     }
 
     lifecycle {
-        prevent_destroy = false
+        prevent_destroy = true
     }
 }

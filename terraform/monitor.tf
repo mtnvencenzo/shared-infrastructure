@@ -7,4 +7,8 @@ resource "azurerm_monitor_action_group" "team_vecchi_action_group" {
     name          = "Ron Vecchi"
     email_address = "rvecchi+azure@gmail.com"
   }
+
+  lifecycle {
+      prevent_destroy = true
+  }
 }
