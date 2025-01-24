@@ -1,10 +1,11 @@
 resource "azurerm_container_app_environment" "container_app_environment" {
-    name                                = "cae-${var.sub}-${var.region}-${var.environment}-${var.domain}-${var.sequence}"
-    resource_group_name                 = data.azurerm_resource_group.global_shared_resource_group.name
-    location                            = data.azurerm_resource_group.global_shared_resource_group.location
-    internal_load_balancer_enabled      = false
-    tags                                = local.tags
+    name                                        = "cae-${var.sub}-${var.region}-${var.environment}-${var.domain}-${var.sequence}"
+    resource_group_name                         = data.azurerm_resource_group.global_shared_resource_group.name
+    location                                    = data.azurerm_resource_group.global_shared_resource_group.location
+    internal_load_balancer_enabled              = false
+    tags                                        = local.tags
 
+    infrastructure_resource_group_name          = azurerm_virtual_network.global_vnet.resource_group_name
     infrastructure_subnet_id                    = azurerm_subnet.container_app_environment_subnet.id
     log_analytics_workspace_id                  = azurerm_log_analytics_workspace.law.id
     dapr_application_insights_connection_string = azurerm_application_insights.appi.connection_string
@@ -16,8 +17,7 @@ resource "azurerm_container_app_environment" "container_app_environment" {
         minimum_count           = 1 
     }
 
-
     lifecycle {
-        prevent_destroy = true
+        prevent_destroy = false
     }
 }
