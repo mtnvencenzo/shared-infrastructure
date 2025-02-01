@@ -19,6 +19,8 @@ resource "azurerm_log_analytics_workspace_table" "law_tables" {
 for_each = toset(var.log_analytics_workspace_tables_for_reduced_retention_period)
   workspace_id            = azurerm_log_analytics_workspace.law.id
   name                    = each.value
+  retention_in_days       = var.log_analytics_workspace_tables_reduced_retention_period
+  total_retention_in_days = var.log_analytics_workspace_tables_reduced_retention_period
 }
 
 resource "azurerm_application_insights" "appi" {
