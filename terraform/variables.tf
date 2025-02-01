@@ -59,7 +59,8 @@ variable "log_analytics_workspace_tables_for_reduced_retention_period" {
     "AppPageViews",
     "AppPerformanceCounters",
     "AppRequests",
-    "AppTraces"
+    "AppTraces",
+    "AppSystemEvents"
   ]
 }
 
