@@ -45,3 +45,27 @@ variable "containers_subnet_address_prefixes" {
   description = "The address space for the containers app environment"
   default = ["10.1.0.0/18"] # Total IPs: 16,384  Range: 10.1.0.0 - 10.1.63.255
 }
+
+variable "log_analytics_workspace_tables_for_reduced_retention_period" {
+  type = list(string)
+  description = "The names of the log analytics tables that should have reduced retention periods"
+  default = [
+    "AppAvailabilityResults",
+    "AppBrowserTimings",
+    "AppDependencies",
+    "AppEvents",
+    "AppExceptions",
+    "AppMetrics",
+    "AppPageViews",
+    "AppPerformanceCounters",
+    "AppRequests",
+    "AppTraces",
+    "AzureActivity"
+  ]
+}
+
+variable "log_analytics_workspace_tables_reduced_retention_period" {
+  type = number
+  description = "The number of days to use for the retention period"
+  default = 30
+}
