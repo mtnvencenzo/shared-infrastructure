@@ -15,7 +15,7 @@ trigger:
     - main
   paths:
     include:
-    - ./deployment/*
+    - .deployment/*
 
 stages:
 
