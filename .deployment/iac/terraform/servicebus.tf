@@ -9,7 +9,7 @@ module "shared_servicebus_namespace" {
     domain                          = var.domain
 
     public_network_access_enabled   = true
-    local_auth_enabled              = false
+    local_auth_enabled              = true
 
     providers = {
         azurerm = azurerm
