@@ -40,6 +40,7 @@ stages:
         deploy:
           steps:
           - checkout: self
+            persistCredentials: true
             displayName: 'Checkout repository'
   
           - task: TerraformInstaller@1
@@ -90,4 +91,12 @@ stages:
               workingDirectory: '$(System.DefaultWorkingDirectory)/.deployment/iac/terraform'
               environmentServiceNameAzureRM: '$(serviceConnectionName)'
               commandOptions: '-auto-approve'
+
+          - script: |
+              tag="prod-$(date +%Y%m%dT%H%M%S%z)"
+              git tag $tag
+              git push origin $tag HEAD:refs/heads/main
+            displayName: 'Git Tag'
+            condition: and(not(or(failed(), canceled())), eq(variables['branchType'], 'main'))
+            workingDirectory: $(Build.SourcesDirectory)
 
