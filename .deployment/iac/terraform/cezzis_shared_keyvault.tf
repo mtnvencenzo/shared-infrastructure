@@ -15,7 +15,14 @@ module "cezzis_keyvault" {
     resource_group_name             = data.azurerm_resource_group.cocktails_glo_resource_group.name
     resource_group_location         = data.azurerm_resource_group.cocktails_glo_resource_group.location
     
-    virtual_network_subnet_ids  = []
+    virtual_network_subnet_ids = [
+      azurerm_subnet.container_app_environment_subnet.id
+    ]
+
     secrets                     = []
     secrets_values_ignored      = []
+    
+    lifecycle {
+        prevent_destroy = true
+    }
 }
