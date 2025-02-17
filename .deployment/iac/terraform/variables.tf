@@ -5,6 +5,12 @@ variable "domain" {
   default = "shared"
 }
 
+variable "shortdomain" {
+  type = string
+  description = "Short domain name. Use only lowercase letters and numbers"
+  default = "shared"
+}
+
 variable "environment" {
   type    = string
   description = "Environment name, e.g. 'dev' or 'stage' or 'prod'"
@@ -32,6 +38,12 @@ variable "sequence" {
   type    = string
   description = "The sequence number of the resource typically starting with 001"
   default = "001"
+}
+
+variable "short_sequence" {
+  type    = string
+  description = "The short sequence number of the resource typically starting with 1"
+  default = "1"
 }
 
 variable "data_location" {
