@@ -21,8 +21,4 @@ module "cezzis_keyvault" {
 
     secrets                     = []
     secrets_values_ignored      = []
-    
-    lifecycle {
-        prevent_destroy = true
-    }
 }
