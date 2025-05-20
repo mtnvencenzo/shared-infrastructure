@@ -9,6 +9,6 @@ resource "azurerm_monitor_action_group" "team_vecchi_action_group" {
   }
 
   lifecycle {
-      prevent_destroy = true
+    prevent_destroy = true
   }
 }

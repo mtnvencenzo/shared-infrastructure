@@ -6,13 +6,13 @@ resource "azurerm_api_management" "apim" {
   location            = data.azurerm_resource_group.global_shared_resource_group.location
   publisher_name      = "Vecchi"
   publisher_email     = "rvecchi@gmail.com"
-  sku_name = "Consumption_0"
-  tags     = local.tags
+  sku_name            = "Consumption_0"
+  tags                = local.tags
 
   identity {
-      type = "SystemAssigned"
+    type = "SystemAssigned"
   }
-  
+
   lifecycle {
     prevent_destroy = true
   }

@@ -1,0 +1,31 @@
+name: CICD-Shared-Infrastructure
+
+on:
+  pull_request:
+    branches: [main]
+    paths: [./**, .github/workflows/shared-infrastructure-cicd.yaml]
+  push:
+    branches: [main]
+    paths: [./**, .github/workflows/shared-infrastructure-cicd.yaml]
+
+  workflow_dispatch:
+
+jobs:
+  terraform:
+    name: Terraform
+    uses: mtnvencenzo/Workflows/.github/workflows/terraform-plan-and-apply.yaml@main
+    with:
+      working_directory: .deployment/iac/terraform
+      environment_name: prd
+      allow_deploy: ${{ (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref_name == 'main' }}
+      terraform_version: 1.11.4
+      arm_client_id: ${{ vars.ARM_CLIENT_ID }}
+      arm_subscription_id: ${{ vars.ARM_SUBSCRIPTION_ID }}
+      arm_tenant_id: ${{ vars.ARM_TENANT_ID }}
+      backend_resource_group_name: rg-vec-eus-administration-001
+      backend_storage_account_name: stveceusterraformstat001
+      backend_container_name: terraform-shared
+      backend_blob_key: shared/terraform.tfstate
+    secrets:
+      arm_client_secret: ${{ secrets.ARM_CLIENT_SECRET }}
+      terraform_module_repo_access_key_secret: ${{ secrets.TERRAFORM_MODULE_REPO_ACCESS_KEY_SECRET }}
