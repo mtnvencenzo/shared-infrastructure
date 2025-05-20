@@ -24,8 +24,8 @@ jobs:
       arm_tenant_id: ${{ vars.ARM_TENANT_ID }}
       backend_resource_group_name: rg-vec-eus-administration-001
       backend_storage_account_name: stveceusterraformstat001
-      backend_container_name: terraform-cocktails
-      backend_blob_key: cocktails/prd-cocktails-shared-infrastructure.tfstate
+      backend_container_name: terraform-shared
+      backend_blob_key: shared/terraform.tfstate
     secrets:
       arm_client_secret: ${{ secrets.ARM_CLIENT_SECRET }}
       terraform_module_repo_access_key_secret: ${{ secrets.TERRAFORM_MODULE_REPO_ACCESS_KEY_SECRET }}
