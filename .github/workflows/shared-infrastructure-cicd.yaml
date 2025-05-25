@@ -3,10 +3,10 @@ name: cicd-shared-infrastructure
 on:
   pull_request:
     branches: [main]
-    paths: [./**, .github/workflows/shared-infrastructure-cicd.yaml]
+    paths: [.deployment/*, .github/workflows/shared-infrastructure-cicd.yaml]
   push:
     branches: [main]
-    paths: [./**, .github/workflows/shared-infrastructure-cicd.yaml]
+    paths: [.deployment/*, .github/workflows/shared-infrastructure-cicd.yaml]
 
   workflow_dispatch:
 

@@ -1,5 +1,5 @@
 module "shared_servicebus_namespace" {
-  source = "git::ssh://git@github.com/mtnvencenzo/Terraform-Modules.git//modules/servicebus-namespace"
+  source = "git::ssh://git@github.com/mtnvencenzo/terraform-modules.git//modules/servicebus-namespace"
 
   resource_group_name = data.azurerm_resource_group.global_shared_resource_group.name
   location            = data.azurerm_resource_group.global_shared_resource_group.location
