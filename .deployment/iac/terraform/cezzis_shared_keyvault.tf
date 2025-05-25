@@ -1,5 +1,5 @@
 module "cezzis_keyvault" {
-  source = "git::ssh://git@github.com/mtnvencenzo/Terraform-Modules.git//modules/key-vault"
+  source = "git::ssh://git@github.com/mtnvencenzo/terraform-modules.git//modules/key-vault"
   providers = {
     azurerm = azurerm
   }
