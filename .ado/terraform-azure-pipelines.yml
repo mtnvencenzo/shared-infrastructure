@@ -15,7 +15,8 @@ trigger:
     - main
   paths:
     include:
-    - .deployment/*
+    - .terraform/*
+    - .ado/*
 
 stages:
 
@@ -60,7 +61,7 @@ stages:
               command: 'init'
               provider: 'azurerm'
               ensureBackend: true
-              workingDirectory: '$(System.DefaultWorkingDirectory)/.deployment/iac/terraform'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/.terraform'
               backendServiceArm: '$(serviceConnectionName)'
               backendAzureRmResourceGroupName: '$(terraformStateResourceGroup)'
               backendAzureRmStorageAccountName: '$(terraformStateStorageAccount)'
@@ -72,14 +73,14 @@ stages:
             inputs:
               command: 'validate'
               provider: 'azurerm'
-              workingDirectory: '$(System.DefaultWorkingDirectory)/.deployment/iac/terraform'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/.terraform'
 
           - task: TerraformTaskV4@4
             displayName: 'Terraform > Plan'
             inputs:
               command: 'plan'
               provider: 'azurerm'
-              workingDirectory: '$(System.DefaultWorkingDirectory)/.deployment/iac/terraform'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/.terraform'
               environmentServiceNameAzureRM: '$(serviceConnectionName)'
 
           - task: TerraformTaskV4@4
@@ -88,7 +89,7 @@ stages:
             inputs:
               command: 'apply'
               provider: 'azurerm'
-              workingDirectory: '$(System.DefaultWorkingDirectory)/.deployment/iac/terraform'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/.terraform'
               environmentServiceNameAzureRM: '$(serviceConnectionName)'
               commandOptions: '-auto-approve'
 
