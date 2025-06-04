@@ -4,11 +4,13 @@ module "ai_search_svc" {
     azurerm = azurerm
   }
 
-  sub         = var.sub
-  region      = var.region
-  environment = var.environment
-  domain      = var.domain
-  sequence    = var.sequence
+  sub                 = var.sub
+  region              = var.region
+  environment         = var.environment
+  domain              = var.domain
+  sequence            = var.sequence
+  resource_group_name = data.azurerm_resource_group.global_shared_resource_group.name
+  location            = data.azurerm_resource_group.global_shared_resource_group.location
 
   sku                           = "free"
   replica_count                 = 1
