@@ -15,6 +15,7 @@ The following Azure resources are managed by this repository:
 - **Front Door CDN**: Content delivery network and global load balancing
 - **Virtual Network**: Network infrastructure with subnets
 - **Monitoring**: Azure Monitor resources for observability
+- **Azure AI Search**: Enterprise search service for building rich search experiences
 
 ## 🚀 Deployment
 
