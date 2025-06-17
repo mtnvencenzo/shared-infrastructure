@@ -53,7 +53,7 @@ The infrastructure is configured using Terraform variables defined in `variables
 ├── .github/
 │   └── workflows/
 │       └── shared-infrastructure-cicd.yaml
-└── .terraform/
+└── terraform/
     ├── main.tf
     ├── variables.tf
     ├── locals.tf
