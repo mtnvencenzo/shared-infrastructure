@@ -67,6 +67,12 @@ The infrastructure is configured using Terraform variables defined in `variables
 - Network security through VNet integration
 - RBAC controls for resource access
 
+Note that the shared keyvault instance has a couple secrets that the vaules are not tracked.  This is because they vaules are manually added outside of terraform.  One of which is a multiline secret which had to have its vaule added using the following cli command
+
+``` bash
+az keyvault secret set --vault-name "kv-vec-eus-glo-shared-1" --name "github-terraform-module-repo-private-key" --file "github-ssh"
+```
+
 ## 🔄 CI/CD
 
 The infrastructure is automatically deployed through GitHub Actions when changes are pushed to the main branch. The workflow:
