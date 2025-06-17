@@ -170,4 +170,4 @@ terraform import ...
 - Use `terraform workspace` to manage multiple environments
 - Consider using remote state storage for team environments
 - Keep your Terraform version consistent across the team
-- Use `.gitignore` to exclude `.terraform` directories and state files 
+- Use `.gitignore` to exclude `terraform` directories and state files 
