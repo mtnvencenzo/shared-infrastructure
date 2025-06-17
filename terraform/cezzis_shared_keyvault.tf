@@ -20,14 +20,5 @@ module "cezzis_keyvault" {
   ]
 
   secrets                = []
-  secrets_values_ignored = [
-    {
-      name  = "github-terraform-module-repo-public-key"
-      value = "n/a"
-    },
-    {
-      name  = "github-terraform-module-repo-private-key"
-      value = "n/a"
-    }
-  ]
+  secrets_values_ignored = []
 }

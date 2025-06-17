@@ -1,4 +1,4 @@
-module "cezzis_keyvault" {
+module "keyvault" {
   source = "git::ssh://git@github.com/mtnvencenzo/terraform-modules.git//modules/key-vault"
   providers = {
     azurerm = azurerm
@@ -17,6 +17,15 @@ module "cezzis_keyvault" {
 
   virtual_network_subnet_ids = []
 
-  secrets                = []
-  secrets_values_ignored = []
+  secrets = []
+  secrets_values_ignored = [
+    {
+      name  = "github-terraform-module-repo-public-key"
+      value = "n/a"
+    },
+    {
+      name  = "github-terraform-module-repo-private-key"
+      value = "n/a"
+    }
+  ]
 }
