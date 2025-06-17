@@ -73,6 +73,8 @@ Note that the shared keyvault instance has a couple secrets that the vaules are 
 az keyvault secret set --vault-name "kv-vec-eus-glo-shared-1" --name "github-terraform-module-repo-private-key" --file "github-ssh"
 ```
 
+See: https://learn.microsoft.com/en-us/azure/key-vault/secrets/multiline-secrets
+
 ## 🔄 CI/CD
 
 The infrastructure is automatically deployed through GitHub Actions when changes are pushed to the main branch. The workflow:
