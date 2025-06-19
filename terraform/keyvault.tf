@@ -26,6 +26,9 @@ module "keyvault" {
     {
       name  = "github-terraform-module-repo-private-key"
       value = "n/a"
+      tags = {
+        file-encoding = "utf-8"
+      }
     }
   ]
 }
