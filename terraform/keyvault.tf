@@ -31,9 +31,9 @@ module "keyvault" {
       name  = "github-terraform-module-repo-private-key"
       value = "n/a"
       tags = {
-        Application   = var.domain
-        Environment   = var.environment
-        file-encoding = "utf-8"
+        Application     = var.domain
+        Environment     = var.environment
+        "file-encoding" = "utf-8"
       }
     }
   ]
