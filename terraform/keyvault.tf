@@ -35,6 +35,24 @@ module "keyvault" {
         Environment     = var.environment
         "file-encoding" = "utf-8"
       }
+    },
+    {
+      name  = "github-pat-mtnvencenzo-packages-readwrite"
+      value = "n/a"
+      tags = {
+        Application     = var.domain
+        Environment     = var.environment
+        "file-encoding" = "utf-8"
+      }
+    },
+    {
+      name  = "github-pat-mtnvencenzo-packages-read"
+      value = "n/a"
+      tags = {
+        Application     = var.domain
+        Environment     = var.environment
+        "file-encoding" = "utf-8"
+      }
     }
   ]
 }
