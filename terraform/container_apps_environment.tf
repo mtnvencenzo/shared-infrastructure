@@ -29,23 +29,26 @@ resource "azapi_resource_action" "open_telemetry_config" {
   resource_id = azurerm_container_app_environment.container_app_environment.id
 
   body = jsonencode({
+    kind = "string"
     properties = {
-      destinations = {
-        azuremonitor = {
-          connectionString = azurerm_application_insights.appi.connection_string
+      openTelemetryConfiguration = {
+        destinations = {
+          azuremonitor = {
+            connectionString = azurerm_application_insights.appi.connection_string
+          }
         }
-      }
-      tracesConfiguration = {
-        destinations = [
-          "azuremonitor"
-        ]
-        samplingRate = 0.8 # Set the sampling rate (e.g., 1.0 for 100%)
-      }
-      logsConfiguration = {
-        destinations = [
-          "azuremonitor"
-        ]
-        samplingRate = 1.0
+        tracesConfiguration = {
+          destinations = [
+            "azuremonitor"
+          ]
+          samplingRate = 0.8 # Set the sampling rate (e.g., 1.0 for 100%)
+        }
+        logsConfiguration = {
+          destinations = [
+            "azuremonitor"
+          ]
+          samplingRate = 1.0
+        }
       }
     }
   })
