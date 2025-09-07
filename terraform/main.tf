@@ -8,7 +8,7 @@ terraform {
       version = "=4.24.0"
     }
     azapi = {
-      source = "azure/azapi"
+      source  = "azure/azapi"
       version = ">= 1.5.0"
     }
   }
@@ -19,6 +19,8 @@ terraform {
 provider "azurerm" {
   features {}
 }
+
+provider "azapi" {}
 
 data "azurerm_resource_group" "global_shared_resource_group" {
   name = "rg-${var.sub}-${var.region}-${var.environment}-${var.domain}-${var.sequence}"
