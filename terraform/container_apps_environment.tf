@@ -28,7 +28,7 @@ resource "azapi_resource_action" "open_telemetry_config" {
   method      = "PUT"
   resource_id = azurerm_container_app_environment.container_app_environment.id
 
-  body = jsonencode({
+  body = {
     properties = {
       appInsightsConfiguration = {
         connectionString = azurerm_application_insights.appi.connection_string
@@ -42,5 +42,5 @@ resource "azapi_resource_action" "open_telemetry_config" {
         }
       }
     }
-  })
+  }
 }
