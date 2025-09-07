@@ -22,3 +22,31 @@ resource "azurerm_container_app_environment" "container_app_environment" {
     prevent_destroy = true
   }
 }
+
+resource "azapi_resource_action" "open_telemetry_config" {
+  type        = "Microsoft.App/managedEnvironments/openTelemetryConfig@2025-02-02-preview"
+  method      = "PUT"
+  resource_id = azurerm_container_app_environment.container_app_environment.id
+
+  body = jsonencode({
+    properties = {
+      destinations = {
+        azuremonitor = {
+          connectionString = azurerm_application_insights.appi.connection_string
+        }
+      }
+      tracesConfiguration = {
+        destinations = [
+          "azuremonitor"
+        ]
+        samplingRate = 0.8 # Set the sampling rate (e.g., 1.0 for 100%)
+      }
+      logsConfiguration = {
+        destinations = [
+          "azuremonitor"
+        ]
+        samplingRate = 1.0
+      }
+    }
+  })
+}
