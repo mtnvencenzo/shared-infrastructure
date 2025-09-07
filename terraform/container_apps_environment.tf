@@ -30,17 +30,17 @@ resource "azapi_resource_action" "open_telemetry_config" {
 
   body = jsonencode({
     properties = {
-      appInsightsConfiguration = {  
-        connectionString = azurerm_application_insights.appi.connection_string  
-      }  
-      openTelemetryConfiguration = {  
-        tracesConfiguration = {  
-          destinations = ["appInsights"]  
-        }  
-        logsConfiguration = {  
-          destinations = ["appInsights"]  
-        }  
-      }  
+      appInsightsConfiguration = {
+        connectionString = azurerm_application_insights.appi.connection_string
+      }
+      openTelemetryConfiguration = {
+        tracesConfiguration = {
+          destinations = ["appInsights"]
+        }
+        logsConfiguration = {
+          destinations = ["appInsights"]
+        }
+      }
     }
   })
 }
