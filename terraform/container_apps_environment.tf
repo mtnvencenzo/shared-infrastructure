@@ -26,7 +26,6 @@ resource "azurerm_container_app_environment" "container_app_environment" {
 resource "azapi_resource_action" "open_telemetry_config" {
   type        = "Microsoft.App/managedEnvironments@2025-02-02-preview"
   method      = "PUT"
-  location    = data.azurerm_resource_group.global_shared_resource_group.location
   resource_id = azurerm_container_app_environment.container_app_environment.id
 
   body = {
