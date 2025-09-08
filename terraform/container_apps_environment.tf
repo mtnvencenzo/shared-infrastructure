@@ -38,7 +38,6 @@ resource "azapi_resource_action" "open_telemetry_config" {
       openTelemetryConfiguration = {
         tracesConfiguration = {
           destinations = ["appInsights"]
-          includeDapr  = bool
         }
         logsConfiguration = {
           destinations = ["appInsights"]
