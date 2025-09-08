@@ -27,7 +27,7 @@ resource "azapi_update_resource" "cae_app_insights_open_telemetry_integration" {
   name      = azurerm_container_app_environment.container_app_environment.name
   parent_id = data.azurerm_resource_group.global_shared_resource_group.id
   type      = "Microsoft.App/managedEnvironments@2023-11-02-preview"
-  body = jsonencode({
+  body = {
     properties = {
       appInsightsConfiguration = {
         connectionString = azurerm_application_insights.appi.connection_string
@@ -48,5 +48,5 @@ resource "azapi_update_resource" "cae_app_insights_open_telemetry_integration" {
         }
       }
     }
-  })
+  }
 }
