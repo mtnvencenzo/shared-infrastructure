@@ -30,6 +30,7 @@ resource "azapi_resource_action" "open_telemetry_config" {
 
   body = {
     properties = {
+      location = data.azurerm_resource_group.global_shared_resource_group.location
       appInsightsConfiguration = {
         connectionString = azurerm_application_insights.appi.connection_string
       }
