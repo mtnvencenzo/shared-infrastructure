@@ -22,27 +22,3 @@ resource "azurerm_container_app_environment" "container_app_environment" {
     prevent_destroy = true
   }
 }
-
-resource "azapi_resource_action" "open_telemetry_config" {
-  type        = "Microsoft.App/managedEnvironments@2025-02-02-preview"
-  method      = "PUT"
-  resource_id = azurerm_container_app_environment.container_app_environment.id
-  location    = data.azurerm_resource_group.global_shared_resource_group.location
-
-  body = {
-    properties = {
-      location = data.azurerm_resource_group.global_shared_resource_group.location
-      appInsightsConfiguration = {
-        connectionString = azurerm_application_insights.appi.connection_string
-      }
-      openTelemetryConfiguration = {
-        tracesConfiguration = {
-          destinations = ["appInsights"]
-        }
-        logsConfiguration = {
-          destinations = ["appInsights"]
-        }
-      }
-    }
-  }
-}
