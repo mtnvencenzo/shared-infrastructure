@@ -22,3 +22,31 @@ resource "azurerm_container_app_environment" "container_app_environment" {
     prevent_destroy = true
   }
 }
+
+resource "azapi_update_resource" "cae_app_insights_open_telemetry_integration" {
+  name      = azurerm_container_app_environment.container_app_environment.name
+  parent_id = data.azurerm_resource_group.global_shared_resource_group.id
+  type      = "Microsoft.App/managedEnvironments@2023-11-02-preview"
+  body = jsonencode({
+    properties = {
+      appInsightsConfiguration = {
+        connectionString = azurerm_application_insights.appi.connection_string
+      }
+      appLogsConfiguration = {
+        destination = "log-analytics"
+        logAnalyticsConfiguration = {
+          customerId = azurerm_log_analytics_workspace.law.workspace_id
+          sharedKey  = azurerm_log_analytics_workspace.law.primary_shared_key
+        }
+      }
+      openTelemetryConfiguration = {
+        tracesConfiguration = {
+          destinations = ["appInsights"]
+        }
+        logsConfiguration = {
+          destinations = ["appInsights"]
+        }
+      }
+    }
+  })
+}
