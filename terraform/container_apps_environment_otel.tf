@@ -1,11 +1,15 @@
 # Storage account for OTEL config
 resource "azurerm_storage_account" "otel" {
-  name                     = "stotel${var.sub}${var.environment}${var.sequence}"
-  resource_group_name      = data.azurerm_resource_group.global_shared_resource_group.name
-  location                 = data.azurerm_resource_group.global_shared_resource_group.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-  tags                     = local.tags
+  name                          = "st${var.sub}${var.region}${var.environment}${var.domain}${var.sequence}"
+  resource_group_name           = data.azurerm_resource_group.global_shared_resource_group.name
+  location                      = data.azurerm_resource_group.global_shared_resource_group.location
+  account_tier                  = "Standard"
+  account_replication_type      = "LRS"
+  https_traffic_only_enabled    = true
+  access_tier                   = "Hot"
+  min_tls_version               = "TLS1_2"
+  tags                          = local.tags
+  public_network_access_enabled = true
 
   network_rules {
     default_action = "Deny"
@@ -19,14 +23,14 @@ resource "azurerm_storage_account" "otel" {
 
 # File share for OTEL config
 resource "azurerm_storage_share" "otel_config" {
-  name                 = "otel-config"
+  name                 = "share-otel-collector-config"
   quota                = 1
   storage_account_name = azurerm_storage_account.otel.name
 }
 
 # OTEL config file
 resource "local_file" "otel_config" {
-  filename = "${path.module}/otel-config.yaml"
+  filename = "${path.module}/otel-collector-config.yml"
   content  = <<-EOT
     receivers:
       otlp:
@@ -63,15 +67,15 @@ resource "local_file" "otel_config" {
 }
 
 resource "azurerm_storage_share_file" "otel_config_upload" {
-  name             = "config.yaml"
+  name             = "otel-collector-config.yml"
   storage_share_id = azurerm_storage_share.otel_config.id
   source           = local_file.otel_config.filename
   content_type     = "application/x-yaml"
 }
 
 # Managed identity for the OTEL collector
-resource "azurerm_user_assigned_identity" "otel_collector" {
-  name                = "id-otel-collector-${var.sub}-${var.environment}-${var.sequence}"
+resource "azurerm_user_assigned_identity" "aca_otel_collector_identity" {
+  name                = "mi-${var.sub}-${var.region}-${var.environment}-${var.domain}otelcollector-${var.sequence}"
   resource_group_name = data.azurerm_resource_group.global_shared_resource_group.name
   location            = data.azurerm_resource_group.global_shared_resource_group.location
   tags                = local.tags
@@ -81,7 +85,7 @@ resource "azurerm_user_assigned_identity" "otel_collector" {
 resource "azurerm_role_assignment" "otel_collector_storage" {
   scope                = azurerm_storage_account.otel.id
   role_definition_name = "Storage File Data SMB Share Reader"
-  principal_id         = azurerm_user_assigned_identity.otel_collector.principal_id
+  principal_id         = azurerm_user_assigned_identity.aca_otel_collector_identity.principal_id
 }
 
 # Container App for OTEL collector
@@ -91,6 +95,8 @@ resource "azurerm_container_app" "otel_collector" {
   resource_group_name          = data.azurerm_resource_group.global_shared_resource_group.name
   revision_mode                = "Single"
   tags                         = local.tags
+  max_inactive_revisions       = 5
+  workload_profile_name        = "Consumption"
 
   identity {
     type         = "UserAssigned"
@@ -101,12 +107,12 @@ resource "azurerm_container_app" "otel_collector" {
     container {
       name   = "otel-collector"
       image  = "otel/opentelemetry-collector-contrib:latest"
-      cpu    = 0.5
-      memory = "1Gi"
+      cpu    = 0.25
+      memory = "0.5Gi"
 
       env {
         name  = "CONFIG_FILE"
-        value = "/etc/otel/config.yaml"
+        value = "/etc/otel/otel-collector-config.yml"
       }
 
       volume_mounts {
