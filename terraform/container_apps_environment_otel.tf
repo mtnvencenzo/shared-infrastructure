@@ -89,9 +89,9 @@ resource "azurerm_role_assignment" "otel_collector_storage" {
 resource "azurerm_container_app" "otel_collector" {
   name                         = "ca-otel-collector-${var.sub}-${var.environment}-${var.sequence}"
   container_app_environment_id = azurerm_container_app_environment.container_app_environment.id
-  resource_group_name         = data.azurerm_resource_group.global_shared_resource_group.name
-  revision_mode               = "Single"
-  tags                        = local.tags
+  resource_group_name          = data.azurerm_resource_group.global_shared_resource_group.name
+  revision_mode                = "Single"
+  tags                         = local.tags
 
   identity {
     type         = "UserAssigned"
@@ -128,8 +128,8 @@ resource "azurerm_container_app" "otel_collector" {
 
   ingress {
     external_enabled = false
-    target_port     = 4317
-    transport       = "http2"
+    target_port      = 4317
+    transport        = "http2"
 
     traffic_weight {
       percentage      = 100
