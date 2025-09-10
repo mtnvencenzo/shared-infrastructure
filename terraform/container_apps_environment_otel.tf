@@ -100,7 +100,7 @@ resource "azurerm_container_app" "otel_collector" {
 
   identity {
     type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.otel_collector.id]
+    identity_ids = [azurerm_user_assigned_identity.aca_otel_collector_identity.id]
   }
 
   template {
