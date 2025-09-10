@@ -106,7 +106,7 @@ resource "azurerm_container_app" "otel_collector" {
   template {
     container {
       name   = "otel-collector"
-      image  = "otel/opentelemetry-collector-contrib:latest"
+      image  = "otel/opentelemetry-collector-contrib:0.135.0"
       cpu    = 0.25
       memory = "0.5Gi"
 
