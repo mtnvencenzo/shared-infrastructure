@@ -67,7 +67,6 @@ resource "azurerm_storage_share_file" "otel_config_upload" {
   storage_share_id = azurerm_storage_share.otel_config.id
   source           = local_file.otel_config.filename
   content_type     = "application/x-yaml"
-  content_md5      = filemd5(local_file.otel_config.filename)
 }
 
 # Managed identity for the OTEL collector
