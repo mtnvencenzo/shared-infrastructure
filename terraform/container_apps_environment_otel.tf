@@ -82,7 +82,7 @@ resource "azurerm_container_app_environment_storage" "otel_config" {
 
 # Container App for OTEL collector
 resource "azurerm_container_app" "otel_collector" {
-  name                         = "ca-otel-collector-${var.sub}-${var.environment}-${var.sequence}"
+  name                         = "aca-${var.sub}-${var.region}-${var.environment}-otelcol-${var.sequence}"
   container_app_environment_id = azurerm_container_app_environment.container_app_environment.id
   resource_group_name          = data.azurerm_resource_group.global_shared_resource_group.name
   revision_mode                = "Single"
