@@ -103,11 +103,6 @@ resource "azurerm_container_app" "otel_collector" {
       ]
 
       env {
-        name  = "OTELCOL_CONFIG"
-        value = "/mnt/otel/otel-collector-config.yml"
-      }
-
-      env {
         name = "APPLICATIONINSIGHTS_CONNECTION_STRING"
         value = azurerm_application_insights.appi.connection_string
       }
