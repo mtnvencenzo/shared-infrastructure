@@ -72,12 +72,12 @@ resource "azurerm_storage_share_file" "otel_config_upload" {
 
 # Environment-level storage configuration for OTEL config
 resource "azurerm_container_app_environment_storage" "otel_config" {
-  name                         = "acast-otel-config"
+  name                         = "st-otel-config"
   container_app_environment_id = azurerm_container_app_environment.container_app_environment.id
   access_mode                  = "ReadOnly"
-  account_name                = azurerm_storage_account.otel.name
-  share_name                  = azurerm_storage_share.otel_config.name
-  access_key                  = azurerm_storage_account.otel.primary_access_key
+  account_name                 = azurerm_storage_account.otel.name
+  share_name                   = azurerm_storage_share.otel_config.name
+  access_key                   = azurerm_storage_account.otel.primary_access_key
 }
 
 # Container App for OTEL collector
@@ -103,7 +103,7 @@ resource "azurerm_container_app" "otel_collector" {
       ]
 
       env {
-        name = "APPLICATIONINSIGHTS_CONNECTION_STRING"
+        name  = "APPLICATIONINSIGHTS_CONNECTION_STRING"
         value = azurerm_application_insights.appi.connection_string
       }
 
