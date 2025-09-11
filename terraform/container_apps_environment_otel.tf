@@ -12,12 +12,12 @@ resource "azurerm_storage_account" "otel" {
   public_network_access_enabled = true
 
   network_rules {
-    default_action = "Deny"
+    default_action = "Allow"
     bypass         = ["AzureServices"]
-    ip_rules       = []
-    virtual_network_subnet_ids = [
-      azurerm_subnet.container_app_environment_subnet.id
-    ]
+    # ip_rules       = []
+    # virtual_network_subnet_ids = [
+    #   azurerm_subnet.container_app_environment_subnet.id
+    # ]
   }
 }
 
