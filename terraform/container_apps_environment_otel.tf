@@ -88,6 +88,17 @@ resource "azurerm_role_assignment" "otel_collector_storage" {
   principal_id         = azurerm_user_assigned_identity.aca_otel_collector_identity.principal_id
 }
 
+
+resource "azurerm_container_app_environment_storage" "otel_config" {
+  name                         = "acast-otel-config"
+  container_app_environment_id = azurerm_container_app_environment.container_app_environment.id
+  access_mode                  = "ReadOnly"
+  account_name                 = azurerm_storage_account.otel.name
+  account_key                  = azurerm_storage_account.otel.primary_access_key
+  share_name                   = azurerm_storage_share.otel_config.name
+}
+
+
 # Container App for OTEL collector
 resource "azurerm_container_app" "otel_collector" {
   name                         = "ca-otel-collector-${var.sub}-${var.environment}-${var.sequence}"
@@ -112,18 +123,18 @@ resource "azurerm_container_app" "otel_collector" {
 
       env {
         name  = "CONFIG_FILE"
-        value = "/etc/otel/otel-collector-config.yml"
+        value = "/mnt/otel/otel-collector-config.yml"
       }
 
       volume_mounts {
         name = "otel-config"
-        path = "/etc/otel"
+        path = "/mnt/otel"
       }
     }
 
     volume {
       name         = "otel-config"
-      storage_name = azurerm_storage_share.otel_config.name
+      storage_name = azurerm_container_app_environment_storage.otel_config.name
       storage_type = "AzureFile"
     }
 
