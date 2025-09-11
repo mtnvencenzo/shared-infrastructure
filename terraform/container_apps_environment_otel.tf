@@ -37,8 +37,6 @@ resource "local_file" "otel_config" {
         protocols:
           grpc:
             endpoint: "0.0.0.0:4317"
-          http:
-            endpoint: "0.0.0.0:4318"
 
     processors:
       batch:
@@ -72,31 +70,15 @@ resource "azurerm_storage_share_file" "otel_config_upload" {
   content_type     = "application/x-yaml"
 }
 
-# Managed identity for the OTEL collector
-resource "azurerm_user_assigned_identity" "aca_otel_collector_identity" {
-  name                = "mi-${var.sub}-${var.region}-${var.environment}-${var.domain}otelcollector-${var.sequence}"
-  resource_group_name = data.azurerm_resource_group.global_shared_resource_group.name
-  location            = data.azurerm_resource_group.global_shared_resource_group.location
-  tags                = local.tags
-}
-
-# Role assignment for storage access
-resource "azurerm_role_assignment" "otel_collector_storage" {
-  scope                = azurerm_storage_account.otel.id
-  role_definition_name = "Storage File Data SMB Share Reader"
-  principal_id         = azurerm_user_assigned_identity.aca_otel_collector_identity.principal_id
-}
-
-
+# Environment-level storage configuration for OTEL config
 resource "azurerm_container_app_environment_storage" "otel_config" {
   name                         = "acast-otel-config"
   container_app_environment_id = azurerm_container_app_environment.container_app_environment.id
   access_mode                  = "ReadOnly"
-  account_name                 = azurerm_storage_account.otel.name
-  account_key                  = azurerm_storage_account.otel.primary_access_key
-  share_name                   = azurerm_storage_share.otel_config.name
+  account_name                = azurerm_storage_account.otel.name
+  share_name                  = azurerm_storage_share.otel_config.name
+  access_key                  = azurerm_storage_account.otel.primary_access_key
 }
-
 
 # Container App for OTEL collector
 resource "azurerm_container_app" "otel_collector" {
@@ -108,11 +90,6 @@ resource "azurerm_container_app" "otel_collector" {
   max_inactive_revisions       = 5
   workload_profile_name        = "Consumption"
 
-  identity {
-    type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.aca_otel_collector_identity.id]
-  }
-
   template {
     container {
       name   = "otel-collector"
@@ -120,8 +97,13 @@ resource "azurerm_container_app" "otel_collector" {
       cpu    = 0.25
       memory = "0.5Gi"
 
+      command = [
+        "/otelcol-contrib",
+        "--config=/mnt/otel/otel-collector-config.yml"
+      ]
+
       env {
-        name  = "CONFIG_FILE"
+        name  = "OTELCOL_CONFIG"
         value = "/mnt/otel/otel-collector-config.yml"
       }
 
@@ -158,7 +140,7 @@ resource "azurerm_container_app" "otel_collector" {
   }
 
   depends_on = [
-    azurerm_role_assignment.otel_collector_storage,
-    azurerm_storage_share_file.otel_config_upload
+    azurerm_storage_share_file.otel_config_upload,
+    azurerm_container_app_environment_storage.otel_config
   ]
 }
