@@ -47,7 +47,6 @@ resource "local_file" "otel_config" {
 
     exporters:
       azuremonitor:
-        instrumentation_key: "${azurerm_application_insights.appi.instrumentation_key}"
 
     service:
       pipelines:
@@ -124,6 +123,11 @@ resource "azurerm_container_app" "otel_collector" {
       env {
         name  = "CONFIG_FILE"
         value = "/mnt/otel/otel-collector-config.yml"
+      }
+
+      env {
+        name = "APPLICATIONINSIGHTS_CONNECTION_STRING"
+        value = azurerm_application_insights.appi.connection_string
       }
 
       volume_mounts {
