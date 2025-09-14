@@ -69,6 +69,10 @@ resource "local_file" "otel_config" {
             endpoint: "0.0.0.0:4318"
             auth:
               authenticator: bearertokenauth/server
+            cors:
+              allowed_origins: ["https://www.cezzis.com"]
+              allowed_headers: ["*"]
+              max_age: 600
 
     processors:
       batch:
