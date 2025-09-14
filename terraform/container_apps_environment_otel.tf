@@ -169,16 +169,16 @@ resource "azurerm_container_app" "otel_collector" {
   }
 
   ingress {
-      external_enabled = true
-      target_port      = 4318
-      exposed_port     = 4318
-      transport        = "http"
+    external_enabled = true
+    target_port      = 4318
+    exposed_port     = 4318
+    transport        = "http"
 
-      traffic_weight {
-        percentage      = 100
-        latest_revision = true
-      }
+    traffic_weight {
+      percentage      = 100
+      latest_revision = true
     }
+  }
 
   depends_on = [
     azurerm_storage_share_file.otel_config_upload,
