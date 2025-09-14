@@ -21,6 +21,27 @@ resource "azurerm_storage_account" "otel" {
   }
 }
 
+# ----------------------------------------
+# OTEL Collector Telmetry Api Key
+# ----------------------------------------
+resource "random_password" "otel_config_api_key_cocktails_api" {
+  length  = 24
+  special = true
+  upper   = true
+}
+
+resource "random_password" "otel_config_api_key_cocktails_web" {
+  length  = 24
+  special = true
+  upper   = true
+}
+
+resource "random_password" "otel_config_api_key_cocktails_mcp" {
+  length  = 24
+  special = true
+  upper   = true
+}
+
 # File share for OTEL config
 resource "azurerm_storage_share" "otel_config" {
   name                 = "share-otel-collector-config"
@@ -29,14 +50,29 @@ resource "azurerm_storage_share" "otel_config" {
 }
 
 # OTEL config file
-resource "local_file" "otel_config" {
+resource "local_sensitive_file" "otel_config" {
   filename = "${path.module}/otel-collector-config.yml"
-  content  = <<-EOT
+  depends_on = [
+    random_password.otel_config_api_key_cocktails_api,
+    random_password.otel_config_api_key_cocktails_web,
+    random_password.otel_config_api_key_cocktails_mcp
+  ]
+  content = <<-EOT
     receivers:
       otlp:
         protocols:
           grpc:
             endpoint: "0.0.0.0:4317"
+            auth:
+              authenticator: bearertokenauth/server
+          http:
+            endpoint: "0.0.0.0:4318"
+            auth:
+              authenticator: bearertokenauth/server
+            cors:
+              allowed_origins: ["https://www.cezzis.com", "https://cezzis.com"]
+              allowed_headers: ["*"]
+              max_age: 600
 
     processors:
       batch:
@@ -46,7 +82,15 @@ resource "local_file" "otel_config" {
     exporters:
       azuremonitor:
 
+    extensions:
+      bearertokenauth/server:
+        tokens:
+          - "${random_password.otel_config_api_key_cocktails_api.result}"
+          - "${random_password.otel_config_api_key_cocktails_web.result}"
+          - "${random_password.otel_config_api_key_cocktails_mcp.result}"
+
     service:
+      extensions: [bearertokenauth/server]
       pipelines:
         traces:
           receivers: [otlp]
@@ -66,7 +110,7 @@ resource "local_file" "otel_config" {
 resource "azurerm_storage_share_file" "otel_config_upload" {
   name             = "otel-collector-config.yml"
   storage_share_id = azurerm_storage_share.otel_config.id
-  source           = local_file.otel_config.filename
+  source           = local_sensitive_file.otel_config.filename
   content_type     = "application/x-yaml"
 }
 
