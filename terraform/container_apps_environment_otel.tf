@@ -57,7 +57,7 @@ resource "local_file" "otel_config" {
     random_password.otel_config_api_key_cocktails_web,
     random_password.otel_config_api_key_cocktails_mcp
   ]
-  content  = <<-EOT
+  content = <<-EOT
     receivers:
       otlp:
         protocols:
