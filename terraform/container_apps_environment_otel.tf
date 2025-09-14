@@ -112,6 +112,7 @@ resource "azurerm_storage_share_file" "otel_config_upload" {
   storage_share_id = azurerm_storage_share.otel_config.id
   source           = local_sensitive_file.otel_config.filename
   content_type     = "application/x-yaml"
+  content_md5      = filemd5(local_sensitive_file.otel_config.filename)
 }
 
 # Environment-level storage configuration for OTEL config
