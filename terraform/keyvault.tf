@@ -17,7 +17,32 @@ module "keyvault" {
 
   virtual_network_subnet_ids = []
 
-  secrets = []
+  secrets = [
+    {
+      name  = "otel-collector-api-key-cocktails-api"
+      value = random_password.otel_config_api_key_cocktails_api.result
+      tags = {
+        Application = var.domain
+        Environment = var.environment
+      }
+    },
+    {
+      name  = "otel-collector-api-key-cocktails-web"
+      value = random_password.otel_config_api_key_cocktails_web.result
+      tags = {
+        Application = var.domain
+        Environment = var.environment
+      }
+    },
+    {
+      name  = "otel-collector-api-key-cocktails-mcp"
+      value = random_password.otel_config_api_key_cocktails_mcp.result
+      tags = {
+        Application = var.domain
+        Environment = var.environment
+      }
+    }
+  ]
   secrets_values_ignored = [
     {
       name  = "github-terraform-module-repo-public-key"
