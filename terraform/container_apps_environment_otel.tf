@@ -70,7 +70,7 @@ resource "local_file" "otel_config" {
             auth:
               authenticator: bearertokenauth/server
             cors:
-              allowed_origins: ["https://www.cezzis.com"]
+              allowed_origins: ["https://www.cezzis.com", "https://cezzis.com"]
               allowed_headers: ["*"]
               max_age: 600
 
