@@ -50,7 +50,7 @@ resource "azurerm_storage_share" "otel_config" {
 }
 
 # OTEL config file
-resource "local_file" "otel_config" {
+resource "local_sensitive_file" "otel_config" {
   filename = "${path.module}/otel-collector-config.yml"
   depends_on = [
     random_password.otel_config_api_key_cocktails_api,
@@ -110,7 +110,7 @@ resource "local_file" "otel_config" {
 resource "azurerm_storage_share_file" "otel_config_upload" {
   name             = "otel-collector-config.yml"
   storage_share_id = azurerm_storage_share.otel_config.id
-  source           = local_file.otel_config.filename
+  source           = local_sensitive_file.otel_config.filename
   content_type     = "application/x-yaml"
 }
 
