@@ -11,7 +11,7 @@ module "acr" {
   environment             = var.environment
 
   sku                   = "Basic"
-  admin                 = true
+  admin_enabled         = true
   data_endpoint_enabled = false
 }
 
