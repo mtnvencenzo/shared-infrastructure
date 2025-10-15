@@ -81,3 +81,8 @@ variable "log_analytics_workspace_tables_reduced_retention_period" {
   description = "The number of days to use for the retention period"
   default     = 30 # cant be less than 90 (which is the default so this is kind of not needed)
 }
+
+variable "shared_cosmosdb_database_name" {
+  type    = string
+  default = "shared-db"
+}
