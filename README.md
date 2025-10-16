@@ -4,6 +4,7 @@ This repository contains the Terraform configuration for managing shared Azure i
 
 ## 🏗️ Infrastructure Components
 
+
 The following Azure resources are managed by this repository:
 
 - **Azure Key Vault**: Secure storage for secrets, keys, and certificates
@@ -16,6 +17,7 @@ The following Azure resources are managed by this repository:
 - **Virtual Network**: Network infrastructure with subnets
 - **Monitoring**: Azure Monitor resources for observability
 - **Azure AI Search**: Enterprise search service for building rich search experiences
+- **Azure Cosmos DB (Shared Account & Database)**: Globally distributed, multi-model database for shared data storage across projects
 
 ## 🚀 Deployment
 
