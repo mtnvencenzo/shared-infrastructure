@@ -72,10 +72,10 @@ resource "azurerm_container_app" "qdrant" {
   }
 
   ingress {
-    external_enabled = false
-    target_port      = 6334
-    exposed_port     = 6334
-    transport        = "http2"
+    external_enabled = true
+    target_port      = 6333
+    exposed_port     = 6333
+    transport        = "http"
 
     traffic_weight {
       percentage      = 100
