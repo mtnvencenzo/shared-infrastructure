@@ -19,6 +19,12 @@ resource "random_password" "otel_config_api_key_cocktails_mcp" {
   upper   = true
 }
 
+resource "random_password" "otel_config_api_key_cocktails_ai" {
+  length  = 24
+  special = true
+  upper   = true
+}
+
 # File share for OTEL config
 resource "azurerm_storage_share" "otel_config" {
   name                 = "share-otel-collector-config"
@@ -32,7 +38,8 @@ resource "local_sensitive_file" "otel_config" {
   depends_on = [
     random_password.otel_config_api_key_cocktails_api,
     random_password.otel_config_api_key_cocktails_web,
-    random_password.otel_config_api_key_cocktails_mcp
+    random_password.otel_config_api_key_cocktails_mcp,
+    random_password.otel_config_api_key_cocktails_ai
   ]
   content = <<-EOT
     receivers:
@@ -65,6 +72,7 @@ resource "local_sensitive_file" "otel_config" {
           - "${random_password.otel_config_api_key_cocktails_api.result}"
           - "${random_password.otel_config_api_key_cocktails_web.result}"
           - "${random_password.otel_config_api_key_cocktails_mcp.result}"
+          - "${random_password.otel_config_api_key_cocktails_ai.result}"
 
     service:
       extensions: [bearertokenauth/server]
