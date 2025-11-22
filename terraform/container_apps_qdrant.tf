@@ -64,7 +64,7 @@ resource "azurerm_container_app" "qdrant" {
     volume {
       name         = "qdrant"
       storage_name = azurerm_container_app_environment_storage.qdrant_storage.name
-      storage_type = "EmptyDir"
+      storage_type = "AzureFile"
     }
 
     min_replicas = 1
