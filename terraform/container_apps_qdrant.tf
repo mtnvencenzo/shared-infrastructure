@@ -51,7 +51,7 @@ resource "azurerm_container_app" "qdrant" {
       }
 
       env {
-        name = "QDRANT__SERVICE__API_KEY"
+        name  = "QDRANT__SERVICE__API_KEY"
         value = random_password.qdrant_api_key.result
       }
 
