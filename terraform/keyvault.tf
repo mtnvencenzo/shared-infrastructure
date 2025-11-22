@@ -41,6 +41,14 @@ module "keyvault" {
         Application = var.domain
         Environment = var.environment
       }
+    },
+    {
+      name  = "qdrant-api-key"
+      value = random_password.qdrant_api_key.result
+      tags = {
+        Application = var.domain
+        Environment = var.environment
+      }
     }
   ]
   secrets_values_ignored = [
