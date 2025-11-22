@@ -1,26 +1,3 @@
-# Storage account for OTEL config
-resource "azurerm_storage_account" "otel" {
-  name                          = "st${var.sub}${var.region}${var.environment}${var.domain}${var.sequence}"
-  resource_group_name           = data.azurerm_resource_group.global_shared_resource_group.name
-  location                      = data.azurerm_resource_group.global_shared_resource_group.location
-  account_tier                  = "Standard"
-  account_replication_type      = "LRS"
-  https_traffic_only_enabled    = true
-  access_tier                   = "Hot"
-  min_tls_version               = "TLS1_2"
-  tags                          = local.tags
-  public_network_access_enabled = true
-
-  network_rules {
-    default_action = "Allow"
-    bypass         = ["AzureServices"]
-    # ip_rules       = []
-    # virtual_network_subnet_ids = [
-    #   azurerm_subnet.container_app_environment_subnet.id
-    # ]
-  }
-}
-
 # ----------------------------------------
 # OTEL Collector Telmetry Api Key
 # ----------------------------------------
@@ -46,7 +23,7 @@ resource "random_password" "otel_config_api_key_cocktails_mcp" {
 resource "azurerm_storage_share" "otel_config" {
   name                 = "share-otel-collector-config"
   quota                = 1
-  storage_account_name = azurerm_storage_account.otel.name
+  storage_account_name = azurerm_storage_account.storage.name
 }
 
 # OTEL config file
@@ -120,9 +97,9 @@ resource "azurerm_container_app_environment_storage" "otel_config" {
   name                         = "st-otel-config"
   container_app_environment_id = azurerm_container_app_environment.container_app_environment.id
   access_mode                  = "ReadOnly"
-  account_name                 = azurerm_storage_account.otel.name
+  account_name                 = azurerm_storage_account.storage.name
   share_name                   = azurerm_storage_share.otel_config.name
-  access_key                   = azurerm_storage_account.otel.primary_access_key
+  access_key                   = azurerm_storage_account.storage.primary_access_key
 }
 
 # Container App for OTEL collector
