@@ -12,12 +12,6 @@ resource "azurerm_storage_share" "qdrant_storage" {
   storage_account_name = azurerm_storage_account.storage.name
 }
 
-
-resource "azurerm_storage_share_directory" "qdrant_storage" {
-  name             = "qdrant-data"
-  storage_share_id = azurerm_storage_share.qdrant_storage.id
-}
-
 # Environment-level storage configuration for QDRANT storage
 resource "azurerm_container_app_environment_storage" "qdrant_storage" {
   name                         = "st-qdrant-storage"
