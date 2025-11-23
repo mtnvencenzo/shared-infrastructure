@@ -77,7 +77,6 @@ resource "azurerm_container_app" "qdrant" {
   }
 
   depends_on = [
-    azurerm_storage_share_directory.qdrant_storage,
     azurerm_container_app_environment_storage.qdrant_storage
   ]
 }
