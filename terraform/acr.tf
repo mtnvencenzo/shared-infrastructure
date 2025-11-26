@@ -14,8 +14,3 @@ module "acr" {
   admin_enabled         = true
   data_endpoint_enabled = false
 }
-
-# import {
-#   to = module.acr.azurerm_container_registry.acr
-#   id = "/subscriptions/1d9ecc00-242a-460d-8b08-b71db19f094e/resourceGroups/rg-vec-eus-glo-shared-001/providers/Microsoft.ContainerRegistry/registries/acrveceusgloshared001"
-# }
