@@ -1,3 +1,40 @@
+# ----------------------------------------
+# QDRANT Api Key
+# ----------------------------------------
+resource "random_password" "qdrant_api_key" {
+  length  = 24
+  special = true
+  upper   = true
+}
+
+# ----------------------------------------
+# OTEL Collector Telmetry Api Key
+# ----------------------------------------
+resource "random_password" "otel_config_api_key_cocktails_api" {
+  length  = 24
+  special = true
+  upper   = true
+}
+
+resource "random_password" "otel_config_api_key_cocktails_web" {
+  length  = 24
+  special = true
+  upper   = true
+}
+
+resource "random_password" "otel_config_api_key_cocktails_mcp" {
+  length  = 24
+  special = true
+  upper   = true
+}
+
+resource "random_password" "otel_config_api_key_cocktails_ai" {
+  length  = 24
+  special = true
+  upper   = true
+}
+
+
 module "keyvault" {
   source = "git::ssh://git@github.com/mtnvencenzo/terraform-modules.git//modules/key-vault"
   providers = {
@@ -37,6 +74,14 @@ module "keyvault" {
     {
       name  = "otel-collector-api-key-cocktails-mcp"
       value = random_password.otel_config_api_key_cocktails_mcp.result
+      tags = {
+        Application = var.domain
+        Environment = var.environment
+      }
+    },
+    {
+      name  = "otel-collector-api-key-cocktails-ai"
+      value = random_password.otel_config_api_key_cocktails_ai.result
       tags = {
         Application = var.domain
         Environment = var.environment
