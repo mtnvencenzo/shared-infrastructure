@@ -15,6 +15,7 @@ jobs:
     name: Terraform
     uses: mtnvencenzo/workflows/.github/workflows/terraform-plan-and-apply.yaml@main
     with:
+      lint_only: true # disabled for now until re-deployed to an environment
       working_directory: terraform
       environment_name: prd
       allow_deploy: ${{ (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref_name == 'main' }}
