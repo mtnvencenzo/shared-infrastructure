@@ -131,6 +131,14 @@ module "keyvault" {
         Environment     = var.environment
         "file-encoding" = "utf-8"
       }
+    },
+    {
+      name  = "otel-collector-apikey-onprem"
+      value = "n/a"
+      tags = {
+        Application = var.domain
+        Environment = var.environment
+      }
     }
   ]
 }
