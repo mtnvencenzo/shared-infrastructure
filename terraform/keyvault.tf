@@ -141,7 +141,7 @@ module "keyvault" {
       }
     },
     {
-      name  = "azure-arm-client-secret-github-actions"
+      name  = "github-azure-rm-client-secret"
       value = "n/a"
       tags = {
         Application = var.domain
