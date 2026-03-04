@@ -139,6 +139,14 @@ module "keyvault" {
         Application = var.domain
         Environment = var.environment
       }
+    },
+    {
+      name  = "azure-arm-client-secret-github-actions"
+      value = "n/a"
+      tags = {
+        Application = var.domain
+        Environment = var.environment
+      }
     }
   ]
 }
