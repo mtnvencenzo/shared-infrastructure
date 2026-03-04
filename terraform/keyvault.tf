@@ -133,7 +133,7 @@ module "keyvault" {
       }
     },
     {
-      name  = "otel-collector-apikey-onprem"
+      name  = "otel-collector-api-key-onprem"
       value = "n/a"
       tags = {
         Application = var.domain
