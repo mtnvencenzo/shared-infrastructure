@@ -155,6 +155,14 @@ module "keyvault" {
         Application = var.domain
         Environment = var.environment
       }
+    },
+    {
+      name  = "rabbitmq-connection-string-onprem"
+      value = "n/a"
+      tags = {
+        Application = var.domain
+        Environment = var.environment
+      }
     }
   ]
 }
