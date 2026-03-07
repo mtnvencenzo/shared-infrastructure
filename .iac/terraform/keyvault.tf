@@ -157,7 +157,39 @@ module "keyvault" {
       }
     },
     {
-      name  = "rabbitmq-connection-string-onprem"
+      name  = "rabbitmq-admin-password-onprem"
+      value = "n/a"
+      tags = {
+        Application = var.domain
+        Environment = var.environment
+      }
+    },
+    {
+      name  = "rabbitmq-app-password-onprem"
+      value = "n/a"
+      tags = {
+        Application = var.domain
+        Environment = var.environment
+      }
+    },
+    {
+      name  = "azure-blob-storage-connection-string-onprem"
+      value = "n/a"
+      tags = {
+        Application = var.domain
+        Environment = var.environment
+      }
+    },
+    {
+      name  = "azure-blob-storage-access-key-onprem"
+      value = "n/a"
+      tags = {
+        Application = var.domain
+        Environment = var.environment
+      }
+    },
+    {
+      name  = "azure-cosmosdb-account-key-onprem"
       value = "n/a"
       tags = {
         Application = var.domain
