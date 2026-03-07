@@ -3,10 +3,10 @@ name: cicd-shared-infrastructure
 on:
   pull_request:
     branches: [main]
-    paths: [terraform/*, .github/workflows/shared-infrastructure-cicd.yaml]
+    paths: [.iac/terraform/*, .github/workflows/shared-infrastructure-cicd.yaml]
   push:
     branches: [main]
-    paths: [terraform/*, .github/workflows/shared-infrastructure-cicd.yaml]
+    paths: [.iac/terraform/*, .github/workflows/shared-infrastructure-cicd.yaml]
 
   workflow_dispatch:
 
@@ -16,7 +16,7 @@ jobs:
     uses: mtnvencenzo/workflows/.github/workflows/terraform-plan-and-apply.yaml@main
     with:
       lint_only: false
-      working_directory: terraform
+      working_directory: .iac/terraform
       environment_name: prd
       allow_deploy: ${{ (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref_name == 'main' }}
       terraform_version: 1.11.4

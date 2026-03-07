@@ -147,6 +147,14 @@ module "keyvault" {
         Application = var.domain
         Environment = var.environment
       }
+    },
+    {
+      name  = "postgres-connection-string-onprem"
+      value = "n/a"
+      tags = {
+        Application = var.domain
+        Environment = var.environment
+      }
     }
   ]
 }
