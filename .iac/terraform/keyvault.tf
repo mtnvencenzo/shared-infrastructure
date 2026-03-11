@@ -179,6 +179,14 @@ module "keyvault" {
         Application = var.domain
         Environment = var.environment
       }
+    },
+    {
+      name  = "langfuse-secret-key"
+      value = "n/a"
+      tags = {
+        Application = var.domain
+        Environment = var.environment
+      }
     }
   ]
 }
